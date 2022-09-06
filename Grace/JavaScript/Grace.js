@@ -1,10 +1,6 @@
-const cm = /* Author: mhufflep */ "/* Author: mhufflep */";
+/* Author: mhufflep */
 
-const write = (data) => {
-    const fs = require('fs');
-    fs.writeFile("Grace_kid.js", data, function(err) {});
-};
-const data = () => {
-    return `const cm = ${cm.toString()} \"${cm.toString()}\";\n\nconst write = ${write.toString()};\nconst data = ${data.toString()};\nwrite(data());`;
-};
-write(data());
+const child = "Grace_kid.js";
+const write = `require('fs').writeFile("Grace_kid.js", data(data.toString()), function(err) {});`;
+const data = (x) => `/* Author: mhufflep */\n\nconst child = \"${child}\";\nconst write = \`${write}\`;\nconst data = ${x};\neval(write);`;
+eval(write);

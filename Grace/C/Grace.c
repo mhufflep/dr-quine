@@ -1,8 +1,6 @@
-#include <fcntl.h>
-#include <stdio.h>
-
 /* Author: mhufflep */
-#define OPEN(x) int fd = open(x, 1538, 0666);
-#define DISPLAY() dprintf(fd, s, 10, 10, 10, 10, 10, 10, 34, s, 34, 34, 34, 10);
-#define MAIN() int main() { const char *s = "#include <fcntl.h>%c#include <stdio.h>%c%c/* Author: mhufflep */%c#define OPEN(x) int fd = open(x, 1538, 0666);%c#define DISPLAY() dprintf(fd, s, 10, 10, 10, 10, 10, 10, 34, s, 34, 34, 34, 10);%c#define MAIN() int main() { const char *s = %c%s%c; OPEN(%cGrace_kid.c%c); DISPLAY(); }%cMAIN()"; OPEN("Grace_kid.c"); DISPLAY(); }
-MAIN()
+#include <stdio.h>
+#define T(x) #x
+#define S(x) T(x)
+#define MAIN(x) int main() { const char *s = "/* Author: mhufflep */\n#include <stdio.h>\n#define T(x) #x\n#define S(x) T(x)\n#define MAIN(x) "x"\nMAIN(S(MAIN(x)))"; FILE *f = fopen("Grace_kid.c", "w+"); fputs(s, f); fclose(f); return 0; }
+MAIN(S(MAIN(x)))
