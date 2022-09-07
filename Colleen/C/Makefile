@@ -21,7 +21,7 @@ endif
 SRCS_DIR     = .
 OBJS_DIR     = .obj
 SRCS_LIST    = Colleen.c
-OUTPUT		 = Colleen_copy.c
+OUTPUT		 = tmp_Colleen
 DIFF_FILE    = ${NAME}.diff
 
 SRCS  = $(addprefix $(SRCS_DIR)/, ${SRCS_LIST})
