@@ -29,7 +29,7 @@ all: $(NAME)
 $(NAME): $(SRCS_LIST)
 	@${INTER} ${NAME}
 	@diff ${SRCS_LIST} ${OUTPUT} > ${DIFF_FILE} || exit 0
-	@if ! [[ -s ${DIFF_FILE} ]] ; then \
+	@if ! [ -s ${DIFF_FILE} ] ; then \
 		echo "Test: OK" ; \
 		rm -rf ${DIFF_FILE} ; \
 	else \
