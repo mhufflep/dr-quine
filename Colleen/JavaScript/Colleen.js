@@ -1,10 +1,14 @@
-/* Author: mhufflep */
+/*
+    Author: mhufflep
+*/
 function display() {
-    console.log("/* Author: mhufflep */\n" + display.toString() + "\n\n" + main.toString() + "\nmain();");
+    console.log("/*\n    Author: mhufflep\n*/\n" + display.toString() + "\n\n" + main.toString() + "\nmain();");
 }
 
 function main() {
-    /* Hola, amigo! */ 
+    /*
+        Hola, amigo!
+    */
     display();
 }
 main();
