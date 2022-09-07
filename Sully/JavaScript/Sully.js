@@ -3,7 +3,7 @@ const n = 5;
 const main = (data) => {
     const name = `Sully_${n - 1}.js`;
     require('fs').writeFile(name, data, function(err) {});
-    if (n > 0) {
+    if (n - 1 > 0) {
         require('child_process').fork(name);
     }
 };
