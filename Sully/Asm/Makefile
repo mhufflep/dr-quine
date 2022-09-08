@@ -34,10 +34,10 @@ endif
 SRCS_DIR     = .
 OBJS_DIR     = .obj
 TEST_DIR     = tmp
-SRCS_LIST    = Sully.asm
+SRC_FILE     = Sully.asm
 
-SRCS  = $(addprefix $(SRCS_DIR)/, ${SRCS_LIST})
-OBJS  = $(addprefix $(OBJS_DIR)/, ${SRCS_LIST:.asm=.o})
+SRCS  = $(addprefix $(SRCS_DIR)/, ${SRC_FILE})
+OBJS  = $(addprefix $(OBJS_DIR)/, ${SRC_FILE:.asm=.o})
 
 ###################################################################################
 #                                   Commands                                      #
@@ -69,6 +69,6 @@ test: re
 	mkdir -p ${TEST_DIR}; cp ${NAME} ${TEST_DIR}/; cd ${TEST_DIR}/; ./${NAME} ; ls -al | grep ${NAME} | wc -l
 
 test2:
-	@cd ${TEST_DIR} && diff ../${NAME}.asm ${NAME}_5.asm || exit 0
-	@cd ${TEST_DIR} && diff ../${NAME}.asm ${NAME}_4.asm || exit 0
+	@cd ${TEST_DIR} && diff ../${SRC_FILE} ${NAME}_5.asm || exit 0
+	@cd ${TEST_DIR} && diff ../${SRC_FILE} ${NAME}_4.asm || exit 0
 	@cd ${TEST_DIR} && diff ${NAME}_5.asm ${NAME}_0.asm || exit 0

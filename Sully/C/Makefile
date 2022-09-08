@@ -21,10 +21,10 @@ endif
 SRCS_DIR     = .
 OBJS_DIR     = .obj
 TEST_DIR     = tmp
-SRCS_LIST    = Sully.c
+SRC_FILE     = Sully.c
 
-SRCS  = $(addprefix $(SRCS_DIR)/, ${SRCS_LIST})
-OBJS  = $(addprefix $(OBJS_DIR)/, ${SRCS_LIST:.c=.o})
+SRCS  = $(addprefix $(SRCS_DIR)/, ${SRC_FILE})
+OBJS  = $(addprefix $(OBJS_DIR)/, ${SRC_FILE:.c=.o})
 
 ###################################################################################
 #                                   Commands                                      #
@@ -53,3 +53,8 @@ re: fclean all
 
 test: re
 	mkdir -p ${TEST_DIR}; cp ${NAME} ${TEST_DIR}/; cd ${TEST_DIR}/; ./${NAME} ; ls -al | grep ${NAME} | wc -l
+
+test2:
+	@cd ${TEST_DIR} && diff ../${SRC_FILE} ${NAME}_5.c || exit 0
+	@cd ${TEST_DIR} && diff ../${SRC_FILE} ${NAME}_4.c || exit 0
+	@cd ${TEST_DIR} && diff ${NAME}_5.c ${NAME}_0.c || exit 0
