@@ -1,4 +1,4 @@
-.PHONY: clean fclean re all makedir test
+.PHONY: clean fclean re all makedir
 
 NAME = Sully
 
@@ -6,12 +6,25 @@ NAME = Sully
 #                               Compiler & Flags                                  #
 ###################################################################################
 
-CC      =   clang
-CFLAGS  =   -Wall -Wextra -Werror
+ASM      = nasm
+ASMFLAGS = 
 # DEBUG     = 1
 
+LD       = ld
+LDFLAGS  = --dynamic-linker /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 -lc
+
+#     Another option
+# gcc Colleen.o -o Col -lc -no-pie
+# ld  -o Col Colleen.o
+
 ifeq ($(DEBUG), 1)
-	CFLAGS += -g
+	ASMFLAGS += -g
+endif
+
+ifeq ($(OS), Darwin)
+	ASMFLAGS += -f macho64
+else
+	ASMFLAGS += -f elf64
 endif
 
 ###################################################################################
@@ -21,10 +34,10 @@ endif
 SRCS_DIR     = .
 OBJS_DIR     = .obj
 TEST_DIR     = tmp
-SRCS_LIST    = Sully.c
+SRCS_LIST    = Sully.asm
 
 SRCS  = $(addprefix $(SRCS_DIR)/, ${SRCS_LIST})
-OBJS  = $(addprefix $(OBJS_DIR)/, ${SRCS_LIST:.c=.o})
+OBJS  = $(addprefix $(OBJS_DIR)/, ${SRCS_LIST:.asm=.o})
 
 ###################################################################################
 #                                   Commands                                      #
@@ -36,14 +49,15 @@ makedir:
 	@if ! [ -d ${OBJS_DIR} ] ; then mkdir ${OBJS_DIR} ; fi
 
 $(NAME): $(OBJS)
-	@$(CC) $(CFLAGS) $^ -o $@
-	@echo "${NAME} assembled"
+	@$(LD) $(LDFLAGS) $^ -o $@
+	@echo "${NAME} created"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
-	@$(CC) $(CFLAGS) -c $< -o $@
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.asm
+	@$(ASM) $(ASMFLAGS) $< -o $@
 
 clean:
 	@rm -rf $(OBJS_DIR)
+	@rm -rf ${OUTPUT}
 	@rm -rf ${TEST_DIR}
 
 fclean: clean
@@ -53,3 +67,8 @@ re: fclean all
 
 test: re
 	mkdir -p ${TEST_DIR}; cp ${NAME} ${TEST_DIR}/; cd ${TEST_DIR}/; ./${NAME} ; ls -al | grep ${NAME} | wc -l
+
+test2:
+	@cd ${TEST_DIR} && diff ../${NAME}.asm ${NAME}_5.asm || exit 0
+	@cd ${TEST_DIR} && diff ../${NAME}.asm ${NAME}_4.asm || exit 0
+	@cd ${TEST_DIR} && diff ${NAME}_5.asm ${NAME}_0.asm || exit 0
