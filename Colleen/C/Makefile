@@ -8,7 +8,7 @@ NAME = Colleen
 
 CC      =   clang
 CFLAGS  =   -Wall -Wextra -Werror
-# DEBUG     = 1
+#DEBUG  = 1
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g
@@ -20,12 +20,12 @@ endif
 
 SRCS_DIR     = .
 OBJS_DIR     = .obj
-SRCS_LIST    = Colleen.c
+SRC_FILE    = Colleen.c
 OUTPUT		 = tmp_Colleen
 DIFF_FILE    = ${NAME}.diff
 
-SRCS  = $(addprefix $(SRCS_DIR)/, ${SRCS_LIST})
-OBJS  = $(addprefix $(OBJS_DIR)/, ${SRCS_LIST:.c=.o})
+SRCS  = $(addprefix $(SRCS_DIR)/, ${SRC_FILE})
+OBJS  = $(addprefix $(OBJS_DIR)/, ${SRC_FILE:.c=.o})
 
 ###################################################################################
 #                                   Commands                                      #
@@ -38,7 +38,7 @@ makedir:
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $^ -o $@
-	@echo "${NAME} assembled"
+	@echo "${NAME} is ready"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
@@ -55,7 +55,7 @@ re: fclean all
 
 test: re
 	@./${NAME} > ${OUTPUT}
-	@diff ${SRCS_LIST} ${OUTPUT} > ${DIFF_FILE} || exit 0
+	@diff ${SRC_FILE} ${OUTPUT} > ${DIFF_FILE} || exit 0
 	@if ! [ -s ${DIFF_FILE} ] ; then \
 		echo "Test: OK" ; \
 		rm -rf ${DIFF_FILE} ; \

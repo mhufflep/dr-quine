@@ -26,7 +26,6 @@ OBJS  = $(addprefix $(OBJS_DIR)/, ${SRC_FILE:.c=.o})
 all: $(NAME)
 
 $(NAME): $(SRC_FILE)
-	@${INTER} ${NAME}
 
 clean:
 	@rm -rf ${NAME}_*.js

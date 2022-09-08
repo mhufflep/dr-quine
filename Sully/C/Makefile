@@ -8,7 +8,7 @@ NAME = Sully
 
 CC      =   clang
 CFLAGS  =   -Wall -Wextra -Werror
-# DEBUG     = 1
+#DEBUG  = 1
 
 ifeq ($(DEBUG), 1)
 	CFLAGS += -g
@@ -37,7 +37,7 @@ makedir:
 
 $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $^ -o $@
-	@echo "${NAME} assembled"
+	@echo "${NAME} is ready"
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@

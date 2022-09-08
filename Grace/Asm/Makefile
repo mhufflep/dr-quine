@@ -8,14 +8,10 @@ NAME = Grace
 
 ASM      = nasm
 ASMFLAGS = 
-# DEBUG     = 1
+#DEBUG   = 1
 
 LD       = ld
 LDFLAGS  = --dynamic-linker /lib/x86_64-linux-gnu/ld-linux-x86-64.so.2 -lc
-
-#     Another option
-# gcc Colleen.o -o Col -lc -no-pie
-# ld  -o Col Colleen.o
 
 ifeq ($(DEBUG), 1)
 	ASMFLAGS += -g
@@ -33,12 +29,12 @@ endif
 
 SRCS_DIR     = .
 OBJS_DIR     = .obj
-SRCS_LIST    = Grace.asm
-OUTPUT		 = Grace_kid.asm
+SRC_FILE    = Grace.s
+OUTPUT		 = Grace_kid.s
 DIFF_FILE    = ${NAME}.diff
 
-SRCS  = $(addprefix $(SRCS_DIR)/, ${SRCS_LIST})
-OBJS  = $(addprefix $(OBJS_DIR)/, ${SRCS_LIST:.asm=.o})
+SRCS  = $(addprefix $(SRCS_DIR)/, ${SRC_FILE})
+OBJS  = $(addprefix $(OBJS_DIR)/, ${SRC_FILE:.s=.o})
 
 ###################################################################################
 #                                   Commands                                      #
@@ -53,7 +49,7 @@ $(NAME): $(OBJS)
 	@$(LD) $(LDFLAGS) $^ -o $@
 	@echo "${NAME} created"
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.asm
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.s
 	@$(ASM) $(ASMFLAGS) $< -o $@
 
 clean:
@@ -67,8 +63,9 @@ fclean: clean
 re: fclean all
 
 test: re
+	@rm ${OUTPUT} || exit 0
 	@./${NAME}
-	@diff ${SRCS_LIST} ${OUTPUT} > ${DIFF_FILE} || exit 0
+	@diff ${SRC_FILE} ${OUTPUT} > ${DIFF_FILE} || exit 0
 	@if ! [ -s ${DIFF_FILE} ] ; then \
 		echo "Test: OK" ; \
 		rm -rf ${DIFF_FILE} ; \
